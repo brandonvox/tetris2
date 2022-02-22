@@ -38,7 +38,7 @@ let dropDelay = 1000
 let lastTime = 0
 let deltaTime = 0
 function gameLoop(time = 0){
-    if(secondsLeft < 0){
+    if(secondsLeft === 0){
         gameOver()
     }
     clearScreen()
@@ -228,4 +228,5 @@ function gameOver(){
     score = 0
     text.innerHTML = score
     secondsLeft = 30
+    shape.resetShape()
 }
