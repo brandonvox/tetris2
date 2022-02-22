@@ -79,14 +79,7 @@ class Shape{
         this.position = {x: 3, y:0}
         this.dropCounter = 0
         if(isCollide(boardMatrix, this)){
-            boardMatrix.forEach(row=>row.fill(0))
-            if(score > recordPoint){
-                recordPoint = score
-                record.innerHTML =  "Record: " +  recordPoint
-                uploadCookie("record", {point: score})
-            }
-            score = 0
-            text.innerHTML = score
+            gameOver()
         }
     }
     move(horizontal){

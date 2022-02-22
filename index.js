@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas")
 const text = document.getElementById("text")
 const record = document.getElementById("record")
+const countDown = document.getElementById("count-down")
 const context = canvas.getContext("2d")
 const BACKGROUND_COLOR = 'black'
 const GRID_COLOR = 'black'
@@ -31,16 +32,23 @@ var boardMatrix = createBoardMatrix()
 var shape = new Shape()
 shape.draw()
 
+let secondsLeft = 30
+countDown.innerHTML = secondsLeft
 let dropDelay = 1000
 let lastTime = 0
 let deltaTime = 0
 function gameLoop(time = 0){
+    if(secondsLeft < 0){
+        gameOver()
+    }
     clearScreen()
     deltaTime = time - lastTime
     lastTime = time
     shape.dropCounter += deltaTime
     if(shape.dropCounter >= dropDelay){
         shape.drop()
+        secondsLeft --
+        countDown.innerHTML = secondsLeft
     }
     shape.draw()
     drawBoardMatrix()
@@ -209,4 +217,15 @@ function getCookieObject(cookieName) {
         }
     }
     return null
+}
+function gameOver(){
+    boardMatrix.forEach(row=>row.fill(0))
+    if(score > recordPoint){
+        recordPoint = score
+        record.innerHTML =  "Record: " +  recordPoint
+        uploadCookie("record", {point: score})
+    }
+    score = 0
+    text.innerHTML = score
+    secondsLeft = 30
 }
